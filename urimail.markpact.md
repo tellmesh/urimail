@@ -1,3 +1,97 @@
+# UriPack: urimail
+
+Self-contained Markpact — definitions, full source, run config. Unpack & run: `urisys markpact run urimail/urimail.markpact.md --as service` (writes `.markpact/`).
+
+```yaml markpact:pack
+apiVersion: urisys.io/v1
+kind: UriPack
+metadata:
+  id: urimail-pack
+  version: 1.0.0
+  language: python
+description: Mail mock/mailpit/smtp automation for urisys-node.
+schemes:
+- urimail
+capabilities:
+- id: mail.status
+  uri: urimail://{account}/query/status
+  kind: query
+  operation: mail.status
+  handler: python://urimail.handlers:status
+  side_effects: false
+  approval: not_required
+- id: mail.inbox.unread
+  uri: urimail://{account}/inbox/query/unread
+  kind: query
+  operation: mail.inbox.unread
+  handler: python://urimail.handlers:inbox_unread
+  side_effects: false
+  approval: not_required
+- id: mail.message.compose
+  uri: urimail://{account}/message/command/compose
+  kind: command
+  operation: mail.message.compose
+  handler: python://urimail.handlers:message_compose
+  side_effects: true
+  approval: required
+- id: mail.message.send
+  uri: urimail://{account}/message/command/send
+  kind: command
+  operation: mail.message.send
+  handler: python://urimail.handlers:message_send
+  side_effects: true
+  approval: required
+- id: mail.message.publish_post
+  uri: urimail://{account}/message/command/publish-post
+  kind: command
+  operation: mail.message.publish_post
+  handler: python://urimail.handlers:message_publish_post
+  side_effects: true
+  approval: required
+policy:
+  default: deny_mutations_without_approval
+runtime:
+  default_environment: mock
+  supports:
+  - mock
+  - local
+  - docker
+```
+
+```yaml markpact:run
+modes:
+- pack
+- service
+- flow
+- interface
+- adapter
+default: service
+scheme: urimail
+service:
+  port: 8790
+  wire: POST /uri/call
+flow:
+  ids: []
+adapter:
+  wire: POST /uri/call
+  events: GET /events
+```
+
+```python markpact:module path=urimail/__init__.py
+from __future__ import annotations
+
+from importlib.resources import files
+
+from .routes import register
+
+__all__ = ["register", "manifest_path"]
+
+
+def manifest_path():
+    return files(__package__).joinpath("manifest.yaml")
+```
+
+```python markpact:module path=urimail/handlers.py
 from __future__ import annotations
 
 import json
@@ -140,3 +234,40 @@ def message_publish_post(payload: dict[str, Any], context: dict[str, Any]) -> di
         out = browser_publish_post({"platform": platform, "text": text, **payload}, browser_ctx)
         return {"platform": platform, "via": "browser", **out}
     return {"published": True, "platform": platform, "mock": True, "chars": len(text)}
+```
+
+```python markpact:module path=urimail/routes.py
+from __future__ import annotations
+
+from importlib.resources import files
+
+from urisysedge.manifest import register_manifest_file
+
+
+def register(runtime):
+    register_manifest_file(runtime, files(__package__).joinpath("manifest.yaml"))
+```
+
+```markdown markpact:docs
+# urimail
+
+
+## AI Cost Tracking
+
+![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.2-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
+![AI Cost](https://img.shields.io/badge/AI%20Cost-$0.15-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-1.0h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
+
+- 🤖 **LLM usage:** $0.1500 (1 commits)
+- 👤 **Human dev:** ~$100 (1.0h @ $100/h, 30min dedup)
+
+Generated on 2026-06-17 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/qwen/qwen3-coder-next)
+
+---
+
+
+
+urimail:// URI capability pack for urisys-node.
+
+Licensed under Apache-2.0.
+```
+

@@ -1,39 +1,37 @@
 id: urimail
-version: 0.1.0
+version: 1
 scheme: urimail
-
+description: Mail mock/mailpit/smtp automation for urisys-node.
 uri_patterns:
   - pattern: urimail://{account}/query/status
     kind: query
     operation: mail.status
-    handler: python://urimail.handlers:status
     side_effects: false
     approval: not_required
-
   - pattern: urimail://{account}/inbox/query/unread
     kind: query
     operation: mail.inbox.unread
-    handler: python://urimail.handlers:inbox_unread
     side_effects: false
     approval: not_required
-
   - pattern: urimail://{account}/message/command/compose
     kind: command
     operation: mail.message.compose
-    handler: python://urimail.handlers:message_compose
     side_effects: true
     approval: required
-
   - pattern: urimail://{account}/message/command/send
     kind: command
     operation: mail.message.send
-    handler: python://urimail.handlers:message_send
     side_effects: true
     approval: required
-
   - pattern: urimail://{account}/message/command/publish-post
     kind: command
     operation: mail.message.publish_post
-    handler: python://urimail.handlers:message_publish_post
     side_effects: true
     approval: required
+handlers:
+  python:
+    mail.status: python://urimail.handlers:status
+    mail.inbox.unread: python://urimail.handlers:inbox_unread
+    mail.message.compose: python://urimail.handlers:message_compose
+    mail.message.send: python://urimail.handlers:message_send
+    mail.message.publish_post: python://urimail.handlers:message_publish_post
