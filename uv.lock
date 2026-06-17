@@ -1,0 +1,28 @@
+version = 1
+revision = 3
+requires-python = ">=3.10"
+
+[[package]]
+name = "urimail"
+version = "0.1.1"
+source = { editable = "." }
+dependencies = [
+    { name = "urisysedge" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "urisysedge", editable = "../urisysedge" }]
+
+[[package]]
+name = "urisysedge"
+version = "0.1.1"
+source = { editable = "../urisysedge" }
+
+[package.metadata]
+requires-dist = [
+    { name = "costs", marker = "extra == 'dev'", specifier = ">=0.1.20" },
+    { name = "goal", marker = "extra == 'dev'", specifier = ">=2.1.0" },
+    { name = "pfix", marker = "extra == 'dev'", specifier = ">=0.1.60" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
+]
+provides-extras = ["dev"]

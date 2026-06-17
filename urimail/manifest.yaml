@@ -1,0 +1,39 @@
+id: urimail
+version: 0.1.0
+scheme: urimail
+
+uri_patterns:
+  - pattern: urimail://{account}/query/status
+    kind: query
+    operation: mail.status
+    handler: python://urimail.handlers:status
+    side_effects: false
+    approval: not_required
+
+  - pattern: urimail://{account}/inbox/query/unread
+    kind: query
+    operation: mail.inbox.unread
+    handler: python://urimail.handlers:inbox_unread
+    side_effects: false
+    approval: not_required
+
+  - pattern: urimail://{account}/message/command/compose
+    kind: command
+    operation: mail.message.compose
+    handler: python://urimail.handlers:message_compose
+    side_effects: true
+    approval: required
+
+  - pattern: urimail://{account}/message/command/send
+    kind: command
+    operation: mail.message.send
+    handler: python://urimail.handlers:message_send
+    side_effects: true
+    approval: required
+
+  - pattern: urimail://{account}/message/command/publish-post
+    kind: command
+    operation: mail.message.publish_post
+    handler: python://urimail.handlers:message_publish_post
+    side_effects: true
+    approval: required
