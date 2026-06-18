@@ -11,13 +11,17 @@ requires-python = ">=3.10"
 license = "Apache-2.0"
 authors = [{ name = "urisys contributors" }, { name = "Tom Sapletta", email = "tom@sapletta.com" }]
 keywords = ["uri", "urisys", "urimail"]
-dependencies = ["uricore>=0.1.8"]
+dependencies = ["uricontrol>=0.1.8"]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0", "uricore>=0.1.8"]
+dev = ["pytest>=8.0", "uricontrol>=0.1.8",
+    "goal>=2.1.0",
+    "costs>=0.1.20",
+    "pfix>=0.1.60",
+]
 
 [tool.uv.sources]
-uricore = { path = "../uricore", editable = true }
+uricontrol = { path = "../uricontrol", editable = true }
 
 [tool.setuptools.packages.find]
 where = ["."]
