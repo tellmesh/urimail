@@ -15,7 +15,7 @@ def test_manifest_loads():
 
 
 def test_manifest_matches_routes():
-    from urisysedge.runtime import Runtime
+    from uri_control.edge.runtime import Runtime
 
     rt = Runtime(config={"mail": {"driver": "mock"}})
     urimail.register(rt)

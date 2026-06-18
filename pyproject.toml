@@ -11,13 +11,12 @@ requires-python = ">=3.10"
 license = "Apache-2.0"
 authors = [{ name = "urisys contributors" }, { name = "Tom Sapletta", email = "tom@sapletta.com" }]
 keywords = ["uri", "urisys", "urimail"]
-dependencies = ["urisysedge>=0.1.0"]
+dependencies = ["uricore>=0.1.8"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "uricore>=0.1.8"]
 
 [tool.uv.sources]
-urisysedge = { path = "../urisysedge", editable = true }
 uricore = { path = "../uricore", editable = true }
 
 [tool.setuptools.packages.find]
