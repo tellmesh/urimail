@@ -3187,11 +3187,11 @@ wheels = [
 
 [[package]]
 name = "uricontrol"
-version = "0.1.12"
+version = "0.1.14"
 source = { editable = "../uricontrol" }
 dependencies = [
     { name = "pyyaml" },
-    { name = "urirouter" },
+    { name = "uriguard" },
 ]
 
 [package.metadata]
@@ -3202,10 +3202,18 @@ requires-dist = [
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
     { name = "pyyaml", specifier = ">=6.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.6.0" },
-    { name = "urirouter", specifier = ">=0.1.0" },
-    { name = "urirouter", extras = ["mqtt"], marker = "extra == 'mqtt'", specifier = ">=0.1.0" },
+    { name = "uriguard", editable = "../uriguard" },
+    { name = "uriresolver", marker = "extra == 'mesh'", editable = "../uriresolver" },
+    { name = "uriresolver", marker = "extra == 'mqtt'", editable = "../uriresolver" },
+    { name = "uritransport", marker = "extra == 'mesh'", editable = "../uritransport" },
+    { name = "uritransport", extras = ["mqtt"], marker = "extra == 'mqtt'", editable = "../uritransport" },
 ]
-provides-extras = ["mqtt", "dev"]
+provides-extras = ["mesh", "mqtt", "dev"]
+
+[[package]]
+name = "uriguard"
+version = "0.1.0"
+source = { editable = "../uriguard" }
 
 [[package]]
 name = "urimail"
@@ -3234,12 +3242,6 @@ requires-dist = [
     { name = "uricontrol", marker = "extra == 'dev'", editable = "../uricontrol" },
 ]
 provides-extras = ["dev"]
-
-[[package]]
-name = "urirouter"
-version = "1.0.3"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/8f/24/5c77a2b1a7149198a8ad394333e2abf09b6f1b242d7cdb8d9e515c7009d4/URIRouter-1.0.3.tar.gz", hash = "sha256:9d2a5fc9a2ddd62acc65da9a469c90fc501b09a10fc45cbed13dfe757195470c", size = 4578, upload-time = "2022-05-17T00:22:42.348Z" }
 
 [[package]]
 name = "urllib3"
